@@ -1,0 +1,14 @@
+node js with mongobd bloge project 
+
+MongobdURL: mongodb+srv://Mongodb:<password>@cluster0.7p19rf1.mongodb.net/?retryWrites=true&w=majority
+
+MongoDB login: amc48598@nezid.com//
+Asdf5647
+
+for add dotenv :npm add -D dotenv
+password encript er jonno : npm add bcrypt
+mongodb use er jonno :npm add mongoose
+webtoken for token based authentication: npm add jsonwebtoken
+for file upload : npm add multer
+show request history: npm add -D morgan
+
