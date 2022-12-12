@@ -5,11 +5,11 @@ const userSchema=new mongoose.Schema({
     lname:{type:String,trim:true},
     userName:{type:String,trim:true,required:true,unique:true},
     email:{type:String,trim:true,required:true,unique:true,
-      validate(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error("Please provide the valid email address");
-      }
-    },
+    //   validate(value) {
+    //   if (!validator.isEmail(value)) {
+    //     throw new Error("Please provide the valid email address");
+    //   }
+    // },
   },
     Phone:{type:String,trim:true},
     password:{type:String,trim:true,required:true,unique:true},

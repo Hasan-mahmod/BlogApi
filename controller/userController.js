@@ -18,26 +18,39 @@ exports.singup = async (req, res, next) => {
     try {
 
         var roles = [];
-        userroles.forEach(element => {
+        
+         for(p=0;p<userroles.length;p++){
           //  console.log(element)
-          if(Role.findOne(element)){
-            roles.push(Role.create({"roleName":element}));
+          if(!Role.findOne({"roleName":userroles[p]})){
+            roles.push(await Role.create({"roleName":userroles[p]}));
           }else{
-            roles.push(Role.findOne(element));
+            roles.push(await Role.findOne({"roleName":userroles[p]}));
           }
            
-        });
-        var finduser=await User.findOne(userName)
+        };
+        var finduser=await User.findOne({userName:userName})
         if(!finduser){
             const user = await User.create({
                 fname,lname, userName, email, profilepic, password
             })
-            
-        //    if(!UserRole.find(user._id)){
-        //         UserRole.create({user:user._id,role:})
-        //    }
-           //await UserRole.create()
+
+            for(p=0;p<roles.length;p++){
+               var userrole= await UserRole.create({user:user._id,role:roles[p]._id})
+               user.userroles.push(userrole._id);
+               user.save()
+            }
+        }else{
+
+            for(p=0;p<roles.length;p++){
+                if(!await UserRole.findOne({user:finduser._id,role:roles[p]._id})){
+                    var userrole= await UserRole.create({user:finduser._id,role:roles[p]._id})
+                    finduser.userroles.push(userrole._id)
+                    finduser.save()
+                }
+                
+            }
         }
+
 
         res.status(201).json({ message: `Hello ${fname} ${lname} ! Your account has been created.` })
     } catch (error) {
