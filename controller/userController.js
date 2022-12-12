@@ -1,4 +1,6 @@
 const User = require("../models/userModel")
+const Role = require("../models/roleModel")
+const UserRole = require("../models/userroleModel")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const SALT_NUMBER=12;
@@ -11,12 +13,33 @@ exports.singup = async (req, res, next) => {
     // req.body.profilepic=file1;
 
     req.body.password = await bcrypt.hash(req.body.password, SALT_NUMBER)
-    const { name, userName, email, password, profilepic } = req.body;
+    const { fname,lname, userName, email, password, profilepic,userroles } = req.body;
+    
     try {
-        const user = await User.create({
-            name, userName, email, profilepic, password
-        })
-        res.status(201).json({ message: `Hello ${name} ! Your account has been created.` })
+
+        var roles = [];
+        userroles.forEach(element => {
+          //  console.log(element)
+          if(Role.findOne(element)){
+            roles.push(Role.create({"roleName":element}));
+          }else{
+            roles.push(Role.findOne(element));
+          }
+           
+        });
+        var finduser=await User.findOne(userName)
+        if(!finduser){
+            const user = await User.create({
+                fname,lname, userName, email, profilepic, password
+            })
+            
+        //    if(!UserRole.find(user._id)){
+        //         UserRole.create({user:user._id,role:})
+        //    }
+           //await UserRole.create()
+        }
+
+        res.status(201).json({ message: `Hello ${fname} ${lname} ! Your account has been created.` })
     } catch (error) {
         res.status(401).json({ message: error })
     }

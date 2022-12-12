@@ -5,8 +5,8 @@ const uploadStorage=multer.diskStorage({
         callback(null, "./file/images")
     },
     filename:(req,file,callback)=>{
-     //   req.filename="./file/images/"+file.originalname;
-        callback(null,file.originalname)
+     //req.filename="./file/images/"+file.originalname;
+     callback(null,file.originalname)
     }
 })
 module.exports.upload=multer({storage:uploadStorage})
